@@ -1,20 +1,20 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import ColorSquare from "./components/ColorSquare.vue";
+import UpBar from "./components/UpBar.vue";
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <div class="flex flex-col items-center justify-center min-h-screen">
+      <UpBar/>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <div class="flex flex-row items-center justify-center gap-x-32">
+        <ColorSquare/>
+        <ColorSquare/>
+        <ColorSquare/>
+      </div>
+      
     </div>
-  </header>
 
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
 <style scoped>
