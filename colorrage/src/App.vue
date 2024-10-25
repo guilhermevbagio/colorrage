@@ -88,9 +88,9 @@ function RGBaverage(hex1, hex2) {
 function PaintMix(hex1, hex2){
   const rgb1 = hexToRgb(hex1);
   const rgb2 = hexToRgb(hex2);
-  const r =  Math.round((255 - Math.sqrt(255 - rgb1[0]) + Math.sqrt(255 - rgb2[0])));
-  const g =  Math.round( (255 - Math.sqrt(255 - rgb1[1]) + Math.sqrt(255 - rgb2[1])));
-  const b =  Math.round( (255 - Math.sqrt(255 - rgb1[2]) + Math.sqrt(255 - rgb2[2]) ));
+  const r =  (255 - Math.sqrt((255 - rgb1[0] + 255 - rgb2[0]) ** 2) ) ;
+  const g =  (255 - Math.sqrt((255 - rgb1[1] + 255 - rgb2[1]) ** 2) ) ;
+  const b =  (255 - Math.sqrt((255 - rgb1[2] + 255 - rgb2[2]) ** 2) ) ;
   return rgbToHex(r, g, b);
 }
 
