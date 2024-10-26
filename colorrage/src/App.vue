@@ -15,30 +15,31 @@
     <!--COLOR SQUARES-->
     <div class="w-full flex flex-row gap-x-32 justify-center">
       <div class="flex flex-col justify-center relative">
-        <ColorSquare :color="displayColorA" @click="toggleColorPickerA()" />
-        <div v-if="colorPickerAEnabled" class="absolute top-full left-0 z-10 mt-2 p-2 rounded shadow-lg">
-          <ColorPicker v-model="colorA" inline />
-        </div>
+        <ColorSquare class="cursor-pointer" :color="displayColorA" @click="toggleColorPickerA()" />
+        <transition name="fade">
+          <div v-if="colorPickerAEnabled" class="absolute top-full left-0 z-10 mt-2 p-2 rounded shadow-lg">
+            <ColorPicker v-model="colorA" inline />
+          </div>
+        </transition>
       </div>
       
       <ColorSquare :color="resultingColor" />
 
-      <div class="flex flex-col justify-center relative">
-        <ColorSquare :color="displayColorB" @click="toggleColorPickerB()" />
-        <div v-if="colorPickerBEnabled" class="absolute top-full left-0 z-10 mt-2 p-2 rounded shadow-lg">
-          <ColorPicker v-model="colorB" inline />
-        </div>
+      <div class="flex flex-col justify-center relative ">
+        <ColorSquare class="cursor-pointer" :color="displayColorB" @click="toggleColorPickerB()" />
+        <transition name="fade">
+          <div v-if="colorPickerBEnabled" class="absolute top-full left-0 z-10 mt-2 p-2 rounded shadow-l">
+            <ColorPicker v-model="colorB" inline />
+          </div>
+        </transition>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup>
 import ColorPicker from 'primevue/colorpicker';
-
 import Select from 'primevue/select';
-
 import ColorSquare from "./components/ColorSquare.vue";
 import UpBar from "./components/UpBar.vue";
 import { ref, computed } from "vue";
@@ -49,8 +50,8 @@ const colorB = ref("f22753");
 const displayColorA = computed(() => '#' + colorA.value)
 const displayColorB = computed(() => '#' + colorB.value)
 
-const colorPickerAEnabled = ref(true);
-const colorPickerBEnabled = ref(true);
+const colorPickerAEnabled = ref(false);
+const colorPickerBEnabled = ref(false);
 
 function toggleColorPickerA() {
   colorPickerAEnabled.value = !colorPickerAEnabled.value;
@@ -65,7 +66,6 @@ const algorithms = ref([
     { name: 'Paint mix', code: '1' },
     { name: 'Subtractive mix', code: '2' },
 ]);
-// Computed property to reactively combine colors
 const resultingColor = computed(() => combineColors(colorA.value, colorB.value));
 
 function hexToRgb(hex) {
@@ -73,9 +73,8 @@ function hexToRgb(hex) {
     const r = (bigint >> 16) & 255;
     const g = (bigint >> 8) & 255;
     const b = bigint & 255;
-    return [r, g, b]; // Return as array
+    return [r, g, b];
 }
-
 
 function combineColors(hex1, hex2) {
   switch(Number(algorithm.value.code))
@@ -90,6 +89,7 @@ function combineColors(hex1, hex2) {
     return RGBaverage(hex1, hex2);
   }
 }
+
 function RGBaverage(hex1, hex2) {
   const rgb1 = hexToRgb(hex1);
   const rgb2 = hexToRgb(hex2);
@@ -112,7 +112,6 @@ function PaintMix(hex1, hex2) {
   return rgbToHex(r, g, b);
 }
 
-
 function SubtractiveMix(hex1, hex2) {
   const rgb1 = hexToRgb(hex1);
   const rgb2 = hexToRgb(hex2);
@@ -128,4 +127,18 @@ function rgbToHex(r, g, b) {
   return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
 }
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.fade-enter-from {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+.fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+</style>
 
