@@ -12,71 +12,38 @@
             <Slider v-if="hasParameter" v-model="parameter" class="ml-2 w-32"  />
 
           </div>
-    <UpBar />
-    <!--HEADER COLOR MIXER-->
-    <div class="flex justify-center self-center">
-      <div class="w-full flex flex-col ">
-        <h1 class="font-extrabold flex text-2xl tracking-tighter text-white justify-center">COLOR MIXER</h1>
-        <div class="flex-row gap-x-2 flex items-center">
-          <h1 class="font-semibold flex text-xl text-white justify-center">MODE:</h1>
-          <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="RGB average" class="w-full md:w-56"></Select>
         </div>
       </div>
-    </div>
-
+      <p class="text-center"> Faça o slider ter a cor do output </p>
     <!--COLOR SQUARES-->
     <div class="w-full flex flex-row gap-x-32 justify-center">
-      <div class="flex flex-col justify-center relative">
-        <ColorSquare class="cursor-pointer" :color="displayColorA" @click="toggleColorPickerA()" />
-        <transition name="fade">
-          <div v-if="colorPickerAEnabled" class="absolute top-full left-0 z-10 mt-2 p-2 rounded shadow-lg">
-            <ColorPicker v-model="colorA" inline />
-          </div>
-        </transition>
-      </div>
-      
-      <ColorSquare :color="resultingColor" />
 
-      <div class="flex flex-col justify-center relative ">
-        <ColorSquare class="cursor-pointer" :color="displayColorB" @click="toggleColorPickerB()" />
-        <transition name="fade">
-          <div v-if="colorPickerBEnabled" class="absolute top-full left-0 z-10 mt-2 p-2 rounded shadow-l">
-            <ColorPicker v-model="colorB" inline />
-          </div>
-        </transition>
-      </div>
+      <InputColorSquare v-model="colorA"/>
+      
+      <OutputColorSquare :color="resultingColor" />
+
+      <InputColorSquare v-model="colorB"/>
     </div>
   </div>
+
 </template>
 
 <script setup>
-import ColorPicker from 'primevue/colorpicker';
 
 import Slider from 'primevue/slider';
 
 import Select from 'primevue/select';
-import ColorSquare from "./components/ColorSquare.vue";
 import UpBar from "./components/UpBar.vue";
 import { ref, computed } from "vue";
+import OutputColorSquare from './components/OutputColorSquare.vue';
+import InputColorSquare from './components/InputColorSquare.vue';
 
 const colorA = ref("ff8733");
 const colorB = ref("f22753");
 const parameter = ref(0);
 
-const displayColorA = computed(() => '#' + colorA.value)
-const displayColorB = computed(() => '#' + colorB.value)
-
 const hasParameter = computed(() => (algorithm.value.code == 3))
 
-const colorPickerAEnabled = ref(false);
-const colorPickerBEnabled = ref(false);
-
-function toggleColorPickerA() {
-  colorPickerAEnabled.value = !colorPickerAEnabled.value;
-}
-function toggleColorPickerB() {
-  colorPickerBEnabled.value = !colorPickerBEnabled.value;
-}
 
 const algorithm = ref( { name: 'RGB average', code: '0' });
 const algorithms = ref([

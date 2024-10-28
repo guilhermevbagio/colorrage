@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-0 left-0 w-full bg-gray-800 text-white p-4 z-50">
+    <div class="fixed top-0 flex flex-row w-screen items-center bg-gray-800 justify-between text-white p-4 z-50">
         <h1 class="text-3xl font-bold flex justify-start tracking-tighter">
             
             <span v-for="(char, index) in text" :key="index" class="wave-char wave-text">
@@ -7,7 +7,12 @@
             </span>
 
         </h1>
+        <div class="flex justify-center flex-row gap-x-4">
+          <p class="font-bold">Tools</p>
+          <font-awesome-icon class="text-white text-2xl cursor-pointer" icon="fa-solid fa-bars" />
+        </div>
     </div>
+
 </template>
 
 <style scoped>
