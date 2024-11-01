@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex justify-center self-center">
+    <div class="flex justify-center">
         <div class="w-full h-full flex flex-col justify-center gap-y-2">
 
             <h1 class="font-extrabold flex text-2xl tracking-tighter text-white justify-center">COLOR MIXER</h1>

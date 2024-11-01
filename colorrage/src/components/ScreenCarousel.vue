@@ -1,20 +1,21 @@
 <template>
     <div >
-      <!-- Render the active screen component -->
-      <component :is="screens[activeIndex]" class="w-full h-full" />
-  
-      <!-- Navigation Controls -->
+
+
+        <component :is="screens[activeIndex]" :key="activeIndex" class="flex justify-center" />
+
+
       <button
         @click="prev"
         class="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full"
       >
-        ‹
+        <font-awesome-icon icon="fa-solid fa-chevron-left" />
       </button>
       <button
         @click="next"
         class="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full"
       >
-        ›
+        <font-awesome-icon icon="fa-solid fa-chevron-right" />
       </button>
     </div>
   </template>
@@ -31,7 +32,7 @@
   const activeIndex = ref(0);
   
   const prev = () => {
-    activeIndex.value = (activeIndex.value - 1 + props.screens.length) % props.sscreens.length;
+    activeIndex.value = (activeIndex.value - 1 + props.screens.length) % props.screens.length;
   };
   
   const next = () => {
@@ -39,7 +40,5 @@
   };
   </script>
   
-  <style scoped>
-  /* Styling to ensure each screen fills the container */
-  </style>
+
   
