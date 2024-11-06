@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center relative">
+    <div class="flex flex-col justify-center w-40 relative">
         <ColorSquare class="cursor-pointer text-white" :color="displayColorA" @click="toggleColorPickerA()" >
         
             <font-awesome-icon class="transition duration-150 ease-in-out text-5xl opacity-10 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock'" />

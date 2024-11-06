@@ -30,6 +30,7 @@ import Select from 'primevue/select';
 import { ref, computed } from "vue";
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import InputColorSquare from '../../components/InputColorSquare.vue';
+import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex } from './colorSpaceConverter.js';
 
 const colorA = ref("ff8733");
 const colorB = ref("f22753");
@@ -48,13 +49,7 @@ const algorithms = ref([
 ]);
 const resultingColor = computed(() => combineColors(colorA.value, colorB.value));
 
-function hexToRgb(hex) {
-    const bigint = parseInt(hex, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return [r, g, b];
-}
+
 
 function combineColors(hex1, hex2) {
   switch(Number(algorithm.value.code))
@@ -122,44 +117,7 @@ function SubtractiveMix(hex1, hex2) {
   return rgbToHex(r, g, b);
 }
 
-function rgbToHsv(r, g, b) {
-    r /= 255, g /= 255, b /= 255;
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    const h = max === min ? 0 :
-              max === r ? (60 * ((g - b) / (max - min)) + 360) % 360 :
-              max === g ? (60 * ((b - r) / (max - min)) + 120) :
-                          (60 * ((r - g) / (max - min)) + 240);
-    const s = max === 0 ? 0 : (max - min) / max;
-    const v = max;
-    return [h, s, v];
-}
 
-function hsvToRgb(h, s, v) {
-    const c = v * s;
-    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
-    const m = v - c;
-
-    let r, g, b;
-    if (h < 60) {
-        r = c; g = x; b = 0;
-    } else if (h < 120) {
-        r = x; g = c; b = 0;
-    } else if (h < 180) {
-        r = 0; g = c; b = x;
-    } else if (h < 240) {
-        r = 0; g = x; b = c;
-    } else if (h < 300) {
-        r = x; g = 0; b = c;
-    } else {
-        r = c; g = 0; b = x;
-    }
-    return [
-        Math.floor((r + m) * 255),
-        Math.floor((g + m) * 255),
-        Math.floor((b + m) * 255)
-    ];
-}
 
 function HsvAverage(hex1, hex2) {
     const rgb1 = hexToRgb(hex1);
@@ -177,9 +135,7 @@ function HsvAverage(hex1, hex2) {
 
 
 
-function rgbToHex(r, g, b) {
-  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
-}
+
 </script>
 
 <style scoped>
