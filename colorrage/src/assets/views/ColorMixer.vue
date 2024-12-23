@@ -50,87 +50,106 @@ const algorithms = ref([
 const resultingColor = computed(() => combineColors(colorA.value, colorB.value));
 
 
-
 function combineColors(hex1, hex2) {
-  switch(Number(algorithm.value.code))
-  {
+  if (!hex1 || !hex2) return null;
+
+  switch(Number(algorithm.value.code)) {
     case 0:
-    return RGBaverage(hex1, hex2);
+      return RGBaverage(hex1, hex2);
     case 1:
-    return PaintMix(hex1, hex2);
+      return PaintMix(hex1, hex2);
     case 2:
       return SubtractiveMix(hex1, hex2);
     case 3:
-      return LinearInterpolation(hex1, hex2, Number(parameter.value)/100);
+      return LinearInterpolation(hex1, hex2, Number(parameter.value) / 100);
     case 4:
-      return HsvAverage(hex1, hex2)
-
+      return HsvAverage(hex1, hex2);
     default: 
-    return RGBaverage(hex1, hex2);
+      return RGBaverage(hex1, hex2);
   }
 }
 
-
 function RGBaverage(hex1, hex2) {
+  if (!hex1 || !hex2) return null;
+  
   const rgb1 = hexToRgb(hex1);
   const rgb2 = hexToRgb(hex2);
-  
-  const r = Math.round((rgb1[0] + rgb2[0]) / 2);
-  const g = Math.round((rgb1[1] + rgb2[1]) / 2);
-  const b = Math.round((rgb1[2] + rgb2[2]) / 2);
-  
+
+  if (!rgb1 || !rgb2) return null;
+
+  const r = Math.round((rgb1.r + rgb2.r) / 2);
+  const g = Math.round((rgb1.g + rgb2.g) / 2);
+  const b = Math.round((rgb1.b + rgb2.b) / 2);
+
   return rgbToHex(r, g, b);
 }
 
 function PaintMix(hex1, hex2) {
+  if (!hex1 || !hex2) return null;
+  
   const rgb1 = hexToRgb(hex1);
   const rgb2 = hexToRgb(hex2);
-  const r = Math.round(Math.sqrt(rgb1[0] * rgb2[0]));
-  const g = Math.round(Math.sqrt(rgb1[1] * rgb2[1]));
-  const b = Math.round(Math.sqrt(rgb1[2] * rgb2[2]));
-  
+
+  if (!rgb1 || !rgb2) return null;
+
+  const r = Math.round(Math.sqrt(rgb1.r * rgb2.r));
+  const g = Math.round(Math.sqrt(rgb1.g * rgb2.g));
+  const b = Math.round(Math.sqrt(rgb1.b * rgb2.b));
 
   return rgbToHex(r, g, b);
 }
 
 function LinearInterpolation(hex1, hex2, t) {
-    const rgb1 = hexToRgb(hex1);
-    const rgb2 = hexToRgb(hex2);
-    
-    const r = Math.floor(rgb1[0] * (1 - t) + rgb2[0] * t);
-    const g = Math.floor(rgb1[1] * (1 - t) + rgb2[1] * t);
-    const b = Math.floor(rgb1[2] * (1 - t) + rgb2[2] * t);
-
-    
-    return rgbToHex(r, g, b);
-}
-
-
-function SubtractiveMix(hex1, hex2) {
+  if (!hex1 || !hex2 || t == null) return null;
+  
   const rgb1 = hexToRgb(hex1);
   const rgb2 = hexToRgb(hex2);
 
-  const r = Math.round((rgb1[0] * rgb2[0]) / 255); // Reduced intensity simulating absorption
-  const g = Math.round((rgb1[1] * rgb2[1]) / 255);
-  const b = Math.round((rgb1[2] * rgb2[2]) / 255);
+  if (!rgb1 || !rgb2) return null;
+
+  const r = Math.floor(rgb1.r * (1 - t) + rgb2.r * t);
+  const g = Math.floor(rgb1.g * (1 - t) + rgb2.g * t);
+  const b = Math.floor(rgb1.b * (1 - t) + rgb2.b * t);
 
   return rgbToHex(r, g, b);
 }
 
+function SubtractiveMix(hex1, hex2) {
+  if (!hex1 || !hex2) return null;
+  
+  const rgb1 = hexToRgb(hex1);
+  const rgb2 = hexToRgb(hex2);
 
+  if (!rgb1 || !rgb2) return null;
+
+  const r = Math.round((rgb1.r * rgb2.r) / 255);
+  const g = Math.round((rgb1.g * rgb2.g) / 255);
+  const b = Math.round((rgb1.b * rgb2.b) / 255);
+
+  return rgbToHex(r, g, b);
+}
 
 function HsvAverage(hex1, hex2) {
-    const rgb1 = hexToRgb(hex1);
-    const rgb2 = hexToRgb(hex2);
-    
-    const hsv1 = rgbToHsv(rgb1[0], rgb1[1], rgb1[2]);
-    const hsv2 = rgbToHsv(rgb2[0], rgb2[1], rgb2[2]);
-    
-    const avgHue = (hsv1[0] + hsv2[0]) / 2;
-    const avgSaturation = (hsv1[1] + hsv2[1]) / 2;
-    const avgValue = (hsv1[2] + hsv2[2]) / 2;
+  if (!hex1 || !hex2) return null;
+  
+  const rgb1 = hexToRgb(hex1);
+  const rgb2 = hexToRgb(hex2);
 
-    return rgbToHex(...hsvToRgb(avgHue, avgSaturation, avgValue));
+  if (!rgb1 || !rgb2) return null;
+  
+  const hsv1 = rgbToHsv(rgb1);
+  const hsv2 = rgbToHsv(rgb2);
+
+  if (!hsv1 || !hsv2) return null;
+
+  const avgHue = (hsv1.h + hsv2.h) / 2;
+  const avgSaturation = (hsv1.s + hsv2.s) / 2;
+  const avgValue = (hsv1.v + hsv2.v) / 2;
+
+  const avgHsv = { h: avgHue, s: avgSaturation, v: avgValue };
+  const rgb = hsvToRgb(avgHsv);
+
+  return rgbToHex(rgb.r, rgb.g, rgb.b);
 }
 
 

@@ -14,6 +14,8 @@
                 <OutputColorSquare :color="color" />
             </div>
         </div>
+
+
     </div>
 </template>
 
@@ -21,7 +23,7 @@
 import InputColorSquare from '../../components/InputColorSquare.vue';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import { ref, watch } from 'vue';
-import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex } from './colorSpaceConverter';
+import { hexToHsv, hsvToHex } from './colorSpaceConverter';
 
 const inputColor = ref("ff8733");
 
@@ -29,18 +31,28 @@ const inputColor = ref("ff8733");
 const shades = ref([]);
 
 watch(inputColor, () => {
-    const rgb = hexToRgb(inputColor.value);
-    const hsv = rgbToHsv(rgb[0], rgb[1], rgb[2]);
-    const generatedShades = Array.from({ length: 9 }, (_, i) => {
-        const factor = 0.2 + i * 0.8;
-        const shadeHsv = { h: Number(hsv[0]), s: Number(hsv[1]), v: Number(hsv[2]) * factor };
-        const shadeRgb = hsvToRgb(shadeHsv.h, shadeHsv.s, shadeHsv.v);
-        return rgbToHex(shadeRgb[0], shadeRgb[1], shadeRgb[2]);
+    const hsv = hexToHsv(inputColor.value);
+
+    const generatedDarkShades = Array.from({ length: 4 }, (_, i) => {
+        const factor =  i/4;  
+        const shadeHsv = { h: hsv.h, s: hsv.s, v: clamp( hsv.v * factor, 10, 100) };
+
+        return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
     });
 
-    shades.value = generatedShades;
+    const generatedBrightShades = [''].concat( Array.from({ length: 4 }, (_, i) => {
+        const factor =  i/4;  
+        const value = (100 - hsv.v) * factor + hsv.v;
+
+        const shadeHsv = { h: hsv.h, s: hsv.s - hsv.s * factor, v: value };
+
+        return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
+    }));
+
+    shades.value = (generatedDarkShades.concat(generatedBrightShades));
+
 
 });
 
-
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 </script>

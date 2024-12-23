@@ -5,7 +5,7 @@
 
             </slot>
         </div>
-        <p class="uppercase">{{ color }}</p>
+        <p v-if="showHex" class="uppercase truncate">{{ color }}</p>
     </div>
 </template>
 
@@ -19,10 +19,14 @@ const props = defineProps({
     color: {
         type: String,
         default: '#06b6d4'
+    },
+    showHex: {
+        type: Boolean,
+        default: true
     }
 });
 
-// Create a computed property for the style
+
 const colorStyle = computed(() => ({
     backgroundColor: props.color
 }));

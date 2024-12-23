@@ -39,7 +39,7 @@ const text = 'Copied to clipboard!'
     }
   };
   
-  const props = defineProps({
+  defineProps({
     color: {
       type: String,
       default: '#06b6d4',
@@ -47,13 +47,7 @@ const text = 'Copied to clipboard!'
   });
   </script>
   
-  <style>
-  .popup-message {
-    /* Style for your popup message */
-    color: green; /* Change as needed */
-    margin-top: 10px; /* Adjust spacing */
-  }
-  </style>
+  
   
 
   <style scoped>
