@@ -23,14 +23,14 @@
 import InputColorSquare from '../../components/InputColorSquare.vue';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import { ref, watch } from 'vue';
-import { hexToHsv, hsvToHex } from './colorSpaceConverter';
+import { hexToHsv, hsvToHex } from '../utils/colorSpaceConverter';
 
 const inputColor = ref("ff8733");
 
-// Generate shades based on the input color in HSV space.
-const shades = ref([]);
+const shades = ref(['', '', '', '', '', '', '', '', '']);
 
-watch(inputColor, () => {
+watch(inputColor, (newColor) => {
+    if(!newColor) return;
     const hsv = hexToHsv(inputColor.value);
 
     const generatedDarkShades = Array.from({ length: 4 }, (_, i) => {

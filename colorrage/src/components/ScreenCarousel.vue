@@ -7,13 +7,13 @@
 
       <button
         @click="prev"
-        class="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full"
+        class="absolute left-4 top-1/2 transform -translate-y-1/2 transition duration-150 ease-in-out hover:scale-[1.3] p-2 bg-gray-800 text-white rounded-full"
       >
         <font-awesome-icon icon="fa-solid fa-chevron-left" />
       </button>
       <button
         @click="next"
-        class="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full"
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 transition duration-150 ease-in-out hover:scale-[1.3] p-2 bg-gray-800 text-white rounded-full"
       >
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
       </button>

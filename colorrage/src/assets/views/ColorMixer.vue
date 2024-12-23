@@ -30,7 +30,7 @@ import Select from 'primevue/select';
 import { ref, computed } from "vue";
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import InputColorSquare from '../../components/InputColorSquare.vue';
-import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex } from './colorSpaceConverter.js';
+import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex } from '../utils/colorSpaceConverter.js';
 
 const colorA = ref("ff8733");
 const colorB = ref("f22753");

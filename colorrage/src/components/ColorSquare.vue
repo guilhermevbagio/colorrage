@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div :style="colorStyle" class="w-40 h-40 rounded shadow-md m-0 p-0 flex items-center justify-center">
-            <slot >
+        <div :style="colorStyle" class="w-40 h-40 rounded shadow-md m-0 p-0 flex items-center  justify-center">
+            <slot>
 
             </slot>
         </div>
@@ -11,7 +11,7 @@
 
 <script setup>
 import { computed } from 'vue';
-
+import { hexToHsv } from '../assets/utils/colorSpaceConverter';
 
 
 // Define props
@@ -28,7 +28,10 @@ const props = defineProps({
 
 
 const colorStyle = computed(() => ({
-    backgroundColor: props.color
+    backgroundColor: props.color,
+    color: props.color && hexToHsv(props.color).v < 90 ? '#ffffff' : '#000000'
 }));
+
+
 </script>
 

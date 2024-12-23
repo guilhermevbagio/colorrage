@@ -17,7 +17,6 @@ import Aura from '@primevue/themes/aura';
 import App from './App.vue'
 import "./assets/index.css"
 
-
 const app = createApp(App)
 
 library.add(faLock, faLockOpen, faBars, faCopy, faChevronRight, faChevronLeft, faPaste, faEyeDropper, faCheck);

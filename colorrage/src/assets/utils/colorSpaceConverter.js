@@ -16,9 +16,9 @@ export function hsvToRgb(h, s, v) {
 }
 
 export function rgbToHex(r, g, b) {
-    const hex = colorsys.rgb_to_hex(
-      {r, g, b});
-    return hex;
+  const hex = colorsys.rgb_to_hex(
+    {r, g, b});
+  return hex;
 }
 
 export function hexToHsv(hex){

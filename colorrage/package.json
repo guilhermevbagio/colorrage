@@ -21,6 +21,7 @@
     "pinia": "^2.1.7",
     "primevue": "^4.1.1",
     "vue": "^3.4.29",
+    "vue-3-mask": "^0.0.1-alpha",
     "vue-3-slider-component": "^1.0.1"
   },
   "devDependencies": {

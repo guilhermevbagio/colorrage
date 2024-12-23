@@ -3,13 +3,13 @@
         <ColorSquare class="cursor-pointer text-white" :color="displayColorA" :show-hex="!unlocked" >
         
             <div class="flex flex-row gap-2">
-
-              <font-awesome-icon class="transition duration-150 ease-in-out text-5xl opacity-10 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ?  'fa-solid fa-check' : 'fa-solid fa-eye-dropper'"  @click="toggleColorPickerA()"/>
-              <font-awesome-icon v-if="!unlocked" class="transition duration-150 ease-in-out text-5xl opacity-10 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-paste" @click="pasteColor()"/>
+              <font-awesome-icon class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ?  'fa-solid fa-check' : 'fa-solid fa-eye-dropper'"  @click="toggleColorPickerA()"/>
+              <font-awesome-icon v-if="!unlocked" class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-paste" @click="pasteColor()"/>
             </div>
         </ColorSquare>
-        <div v-if="unlocked">
-          <input v-model="color" class="uppercase w-40 px-1" @input="sanitizeColor" @paste="pasteColor"/>
+        <div v-if="unlocked" class="flex flex-row w-full truncate">
+          <p class="bg-gray-800 select-none">#</p>
+          <input v-model="inputColor" class="uppercase pr-1 bg-gray-800" :placeholder="color" @input="(value) => sanitizeColor(value)" @paste="pasteColor"/>
         </div>
         <transition name="fade">
           <div v-if="unlocked" class="absolute top-full left-0 z-10 rounded shadow-lg">
@@ -24,23 +24,32 @@ import ColorSquare from './ColorSquare.vue'
 import ColorPicker from 'primevue/colorpicker';
 import { ref, computed, watch } from "vue";
 
-function toggleColorPickerA() {
-  unlocked.value = !unlocked.value;
-}
 
 const unlocked = ref(false);
 const displayColorA = computed(() => '#' + color.value)
+const inputColor = ref();
 const color = defineModel();
 
 
-watch(color, (newColor) => {
+function toggleColorPickerA() {
+  unlocked.value = !unlocked.value;
+
+  //guarantees the inputColor variable doesnt store a bogus value after invalid input is rejected
+  if(unlocked.value) {
+    inputColor.value = color.value
+  }
+}
+watch(inputColor, (newColor) => {
 
   const sanitizedColor = sanitizeColor(newColor);
-
-  if(!isValidColor(sanitizedColor)) { 
+  if(!isValidColor(sanitizedColor)) {
     return;
   }
   color.value = sanitizedColor
+});
+
+watch(color, (newColor) => {
+  inputColor.value = newColor;
 });
 
 async function pasteColor(event) {
@@ -48,14 +57,14 @@ async function pasteColor(event) {
 }
 
 function isValidColor(input){
-  const validColor = /^#[0-9A-Fa-f]{6}$/i.test(input);
+  const validColor = /^#?[0-9A-Fa-f]{6}$/i.test(input);
 
   return validColor;
 }
 
 function sanitizeColor(color) {
-  const cleanedColor = color.replace(/[^a-zA-Z0-9#]/g, ''); 
-  return cleanedColor()
+  const cleanedColor = String(color).replace(/[^a-zA-Z0-9#]/g, ''); 
+  return cleanedColor;
 }
 
 </script>
