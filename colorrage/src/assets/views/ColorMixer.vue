@@ -1,25 +1,26 @@
 <template>
-
+  <div class="flex flex-col">
     <div class="flex justify-center">
-        <div class="w-full h-full flex flex-col justify-center gap-y-2">
-
-            <h1 class="font-extrabold flex text-2xl tracking-tighter text-white justify-center">COLOR MIXER</h1>
-            <h1 class="font-semibold self-center text-lg text-white">MODE:</h1>
-            <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="RGB average" class="w-52 self-center" ></Select>
-            <div v-if="hasParameter"  class="w-64 self-center">
-              <VueSlider v-model="parameter" v-bind="{processStyle : { backgroundColor: resultingColor }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: resultingColor}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
-            </div>
+      <div class="w-full h-full flex flex-col justify-center gap-y-2">
+        
+        <h1 class="font-extrabold flex text-2xl tracking-tighter text-white justify-center">COLOR MIXER</h1>
+        <h1 class="font-semibold self-center text-lg text-white">MODE:</h1>
+        <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="RGB average" class="w-52 self-center" ></Select>
+        <div v-if="hasParameter"  class="w-64 self-center">
+          <VueSlider v-model="parameter" v-bind="{processStyle : { backgroundColor: resultingColor }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: resultingColor}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
         </div>
+      </div>
     </div>
     <!--COLOR SQUARES-->
     <div class="w-full flex flex-row gap-x-32 mt-6 justify-center">
-
+      
       <InputColorSquare v-model="colorA"/>
       
       <OutputColorSquare :color="resultingColor" />
-
+      
       <InputColorSquare v-model="colorB"/>
     </div>
+  </div>
 </template>
 
 <script setup>

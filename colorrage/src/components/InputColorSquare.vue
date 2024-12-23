@@ -4,7 +4,7 @@
         
             <div class="flex flex-row gap-2">
               <font-awesome-icon class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ?  'fa-solid fa-check' : 'fa-solid fa-eye-dropper'"  @click="toggleColorPickerA()"/>
-              <font-awesome-icon v-if="!unlocked" class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-paste" @click="pasteColor()"/>
+              <font-awesome-icon v-if="!unlocked" class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-paste" @click="pasteColor"/>
             </div>
         </ColorSquare>
         <div v-if="unlocked" class="flex flex-row w-full truncate">
@@ -52,8 +52,18 @@ watch(color, (newColor) => {
   inputColor.value = newColor;
 });
 
-async function pasteColor(event) {
+async function pasteColor() {
+  // Access clipboard data
+  const pastedData = (await navigator.clipboard.readText()).trim();
 
+  // Sanitize and validate the pasted data
+  const sanitizedColor = sanitizeColor(pastedData);
+  if (isValidColor(sanitizedColor)) {
+    color.value = sanitizedColor.startsWith('#') ? sanitizedColor : `#${sanitizedColor}`;
+    inputColor.value = color.value; // Update the input to reflect the new color
+  } else {
+    console.error('Invalid color format pasted:', pastedData);
+  }
 }
 
 function isValidColor(input){

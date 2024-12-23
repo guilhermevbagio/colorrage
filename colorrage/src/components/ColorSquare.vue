@@ -29,9 +29,13 @@ const props = defineProps({
 
 const colorStyle = computed(() => ({
     backgroundColor: props.color,
-    color: props.color && hexToHsv(props.color).v < 90 ? '#ffffff' : '#000000'
+    color: textColorContrastAdjustment()
 }));
 
+function textColorContrastAdjustment(){
+    if (!props.color) return '#000000';
+    return hexToHsv(props.color).v < 80 ? '#ffffff' : '#000000'
+}
 
 </script>
 
