@@ -11,8 +11,16 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@primevue/themes": "^4.1.1",
     "pinia": "^2.1.7",
-    "vue": "^3.4.29"
+    "primevue": "^4.1.1",
+    "vue": "^3.4.29",
+    "vue-3-slider-component": "^1.0.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
