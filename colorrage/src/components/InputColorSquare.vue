@@ -53,14 +53,11 @@ watch(color, (newColor) => {
 });
 
 async function pasteColor() {
-  // Access clipboard data
   const pastedData = (await navigator.clipboard.readText()).trim();
-
-  // Sanitize and validate the pasted data
   const sanitizedColor = sanitizeColor(pastedData);
   if (isValidColor(sanitizedColor)) {
-    color.value = sanitizedColor.startsWith('#') ? sanitizedColor : `#${sanitizedColor}`;
-    inputColor.value = color.value; // Update the input to reflect the new color
+    inputColor.value = sanitizedColor;
+    color.value= sanitizedColor
   } else {
     console.error('Invalid color format pasted:', pastedData);
   }
@@ -73,7 +70,7 @@ function isValidColor(input){
 }
 
 function sanitizeColor(color) {
-  const cleanedColor = String(color).replace(/[^a-zA-Z0-9#]/g, ''); 
+  const cleanedColor = String(color).replace(/[^a-zA-Z0-9]/g, ''); 
   return cleanedColor;
 }
 
