@@ -87,7 +87,7 @@ function calculateShades(){
         const compressedValue = compressLow(value, 5, clamp(hsv.v, 6, 100), clamp(range.value, 30, 100)/100);
         const saturation = hsv.s - (hsv.s * 1/(factor + 1) * washLow.value/200);
         const hue = (hsv.h + hueShift.value/5 * 1/(factor + 1)) % 360;
-        const shadeHsv = { h: hue, s: saturation, v:  clamp(compressedValue, 0, 100) };
+        const shadeHsv = { h: hue, s: saturation, v:  clamp(compressedValue, 10, 100) };
 
         return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
     });
