@@ -33,8 +33,14 @@ const colorStyle = computed(() => ({
 }));
 
 function textColorContrastAdjustment(){
-    if (!props.color) return '#000000';
+    if (!props.color || !isValidColor(props.color)) return '#000000';
     return hexToHsv(props.color).v < 80 ? '#ffffff' : '#000000'
+}
+
+function isValidColor(input){
+  const validColor = /^#?[0-9A-Fa-f]{6}$/i.test(input);
+
+  return validColor;
 }
 
 </script>

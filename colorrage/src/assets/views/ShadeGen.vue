@@ -11,11 +11,11 @@
                 <VueSlider v-model="range" v-bind="{processStyle : { backgroundColor: '#FFFFFF' }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: '#FFFFFF'}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
             </div>
             <div class="flex flex-col justify-center p-4 pt-0">
-                <h2 class="font-semibold self-center text-lg text-white">SLOPE</h2>
-                <VueSlider v-model="slope" v-bind="{processStyle : { backgroundColor: '#FFFFFF' }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: '#FFFFFF'}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
+                <h2 class="font-semibold self-center text-lg text-white">WASH-LO</h2>
+                <VueSlider v-model="washLow" v-bind="{processStyle : { backgroundColor: '#FFFFFF' }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: '#FFFFFF'}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
             </div>
             <div class="flex flex-col justify-center p-4 pt-0">
-                <h2 class="font-semibold self-center text-lg text-white">WASH</h2>
+                <h2 class="font-semibold self-center text-lg text-white">WASH-HI</h2>
                 <VueSlider v-model="wash" v-bind="{processStyle : { backgroundColor: '#FFFFFF' }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: '#FFFFFF'}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
             </div>
         </div>
@@ -49,11 +49,20 @@ const shades = ref(['', '', '', '', '', '', '', '', '']);
 const wash = ref(50);
 const hueShift = ref(0);
 const range = ref(100);
-const slope = ref(50);
+const washLow = ref(0);
 
 watch(wash, () => {
     calculateShades()
 });
+watch(range, () => {
+    calculateShades()
+});
+watch(washLow, () => {
+    calculateShades()
+});
+watch(hueShift, () => {
+    calculateShades()
+})
 
 watch(inputColor, (newColor) => {
     if(!newColor) return;
@@ -69,16 +78,19 @@ function calculateShades(){
 
     const generatedDarkShades = Array.from({ length: 4 }, (_, i) => {
         const factor =  i/4;  
-        const shadeHsv = { h: hsv.h, s: hsv.s, v: clamp( hsv.v * factor, 5, 100) };
+        const value = hsv.v * factor;
+        const compressedValue = compressLow(value, 5, clamp(hsv.v, 6, 100), clamp(range.value, 30, 100)/100);
+        const saturation = hsv.s - (hsv.s * 1/(factor + 1) * washLow.value/200);
+        const shadeHsv = { h: hsv.h, s: saturation, v:  clamp(compressedValue, 0, 100) };
 
         return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
     });
 
     const generatedBrightShades = [''].concat( Array.from({ length: 4 }, (_, i) => {
-        const factor =  i/4;  
-        const value = (100 - hsv.v) * factor + hsv.v;
-
-        const shadeHsv = { h: hsv.h, s: hsv.s - hsv.s * factor * wash.value/100, v: value };
+        const factor =  (i + 1)/4;  
+        const value = ((100 - hsv.v) * factor) + hsv.v;
+        const compressedValue = compressHigh(value, clamp(hsv.v, 0, 99), 100, range.value/100);
+        const shadeHsv = { h: hsv.h, s: hsv.s - hsv.s * factor * wash.value/100, v: clamp(compressedValue, 0, 100) };
 
         return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
     }));
@@ -86,12 +98,30 @@ function calculateShades(){
     shades.value = (generatedDarkShades.concat(generatedBrightShades));
 }
 
-function mapRangeSymmetric(value, oldMin, oldMax, midpoint, compressionFactor) {
-    let range = oldMax - oldMin;
-    let compressedRange = range * compressionFactor;
-    let newMin = midpoint - compressedRange / 2;
-    let newMax = midpoint + compressedRange / 2;
+function compressLow(value, oldMin, oldMax, lowCompressionFactor) {
+    if (lowCompressionFactor < 0 || lowCompressionFactor > 1) {
+        throw new Error("Compression factor must be between 0 and 1.");
+    }
+    if (oldMin >= oldMax) {
+        throw new Error("Invalid range: oldMin must be less than oldMax.");
+    }
 
-    return ((value - oldMin) * (newMax - newMin)) / range + newMin;
+    const newMin = oldMax - (oldMax - oldMin) * lowCompressionFactor;
+
+    return ((value - oldMax) * (newMin - oldMax)) / (oldMin - oldMax) + oldMax;
 }
+
+function compressHigh(value, oldMin, oldMax, highCompressionFactor) {
+    if (highCompressionFactor < 0 || highCompressionFactor > 1) {
+        throw new Error("Compression factor must be between 0 and 1.");
+    }
+    if (oldMin >= oldMax) {
+        throw new Error("Invalid range: oldMin must be less than oldMax.");
+    }
+
+    const newMax = oldMin + (oldMax - oldMin) * highCompressionFactor;
+
+    return ((value - oldMin) * (newMax - oldMin)) / (oldMax - oldMin) + oldMin;
+}
+
 </script>
