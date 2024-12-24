@@ -40,16 +40,16 @@
 import InputColorSquare from '../../components/InputColorSquare.vue';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import VueSlider from "vue-3-slider-component";
-import { ref, watch } from 'vue';
-import { hexToHsv, hsvToHex } from '../utils/colorSpaceConverter';
+import { ref, watch, onMounted } from 'vue';
+import { hexToHsv, hsvToHex, randomColor } from '../utils/colorSpaceConverter';
 
 const inputColor = ref("ff8733");
 const shades = ref(['', '', '', '', '', '', '', '', '']);
 
 const wash = ref(50);
-const hueShift = ref(0);
-const range = ref(100);
-const washLow = ref(0);
+const hueShift = ref(20);
+const range = ref(80);
+const washLow = ref(10);
 
 watch(wash, () => {
     calculateShades()
@@ -71,6 +71,11 @@ watch(inputColor, (newColor) => {
 
 });
 
+onMounted(() => {
+    inputColor.value = randomColor();
+    calculateShades();
+})
+
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 
 function calculateShades(){
@@ -81,7 +86,8 @@ function calculateShades(){
         const value = hsv.v * factor;
         const compressedValue = compressLow(value, 5, clamp(hsv.v, 6, 100), clamp(range.value, 30, 100)/100);
         const saturation = hsv.s - (hsv.s * 1/(factor + 1) * washLow.value/200);
-        const shadeHsv = { h: hsv.h, s: saturation, v:  clamp(compressedValue, 0, 100) };
+        const hue = (hsv.h + hueShift.value/5 * 1/(factor + 1)) % 360;
+        const shadeHsv = { h: hue, s: saturation, v:  clamp(compressedValue, 0, 100) };
 
         return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
     });
@@ -90,7 +96,8 @@ function calculateShades(){
         const factor =  (i + 1)/4;  
         const value = ((100 - hsv.v) * factor) + hsv.v;
         const compressedValue = compressHigh(value, clamp(hsv.v, 0, 99), 100, range.value/100);
-        const shadeHsv = { h: hsv.h, s: hsv.s - hsv.s * factor * wash.value/100, v: clamp(compressedValue, 0, 100) };
+        const hue = (hsv.h - hueShift.value/5 * factor) % 360;
+        const shadeHsv = { h: hue, s: hsv.s - hsv.s * factor * wash.value/100, v: clamp(compressedValue, 0, 100) };
 
         return hsvToHex(shadeHsv.h, shadeHsv.s, shadeHsv.v);
     }));

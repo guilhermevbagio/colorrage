@@ -27,3 +27,7 @@ export function hexToHsv(hex){
 export function hsvToHex(h, s, v){
   return colorsys.hsvToHex(h, s, v)
 }
+
+export function randomColor(){
+  return colorsys.random();
+}
