@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex flex-col justify-center">
+    <div class="w-full flex flex-col justify-center scale-[.9]">
         <h1 class="font-extrabold flex text-2xl tracking-tighter text-white justify-center mb-10">COLOR SHADES</h1>
         <div class="grid grid-rows-0 grid-cols-4 justify-between gap-4 w-full">
             <div class="flex flex-col justify-center p-4 pt-0">

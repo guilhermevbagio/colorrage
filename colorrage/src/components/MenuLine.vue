@@ -1,5 +1,5 @@
 <template>
-    <div class="hover:bg-gray-700 p-4 bg-gray-800 cursor-pointer font-bold">
+    <div class="will-change-transform hover:opacity-50 rounded-lg p-4 cursor-pointer font-bold">
         <slot>
 
         </slot>

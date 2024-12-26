@@ -21,7 +21,8 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { computed } from 'vue';
+  import { useActiveIndexStore } from '@/stores/activeScreenIndexStore';
   
   const props = defineProps({
     screens: {
@@ -29,15 +30,17 @@
       required: true,
     },
   })
-  const activeIndex = ref(0);
-  
+  const activeIndex = computed(() => store.activeIndex); 
+  const store = useActiveIndexStore();
   const prev = () => {
-    activeIndex.value = (activeIndex.value - 1 + props.screens.length) % props.screens.length;
+    store.prev(props.screens.length); 
   };
   
   const next = () => {
-    activeIndex.value = (activeIndex.value + 1) % props.screens.length;
+    store.next(props.screens.length);
   };
+
+
   </script>
   
 

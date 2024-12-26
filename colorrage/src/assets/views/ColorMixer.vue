@@ -28,7 +28,8 @@
 import VueSlider from "vue-3-slider-component";
 
 import Select from 'primevue/select';
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
+import { useColorsStore } from '../../stores/colorstore';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import InputColorSquare from '../../components/InputColorSquare.vue';
 import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex } from '../utils/colorSpaceConverter.js';
@@ -38,7 +39,7 @@ const colorB = ref("f22753");
 const parameter = ref(Number(0));
 
 const hasParameter = computed(() => (algorithm.value.code == 3))
-
+const store = useColorsStore();
 
 const algorithm = ref( { name: 'RGB average', code: '0' });
 const algorithms = ref([
@@ -49,6 +50,10 @@ const algorithms = ref([
     { name: 'HSV Average', code: '4'}
 ]);
 const resultingColor = computed(() => combineColors(colorA.value, colorB.value));
+
+watch(resultingColor, () => {
+  store.setMainColor(resultingColor.value)
+})
 
 
 function combineColors(hex1, hex2) {

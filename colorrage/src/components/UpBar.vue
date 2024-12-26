@@ -1,32 +1,57 @@
 <template>
   <div class="fixed top-0 right-0">
-    <div class="flex flex-row w-screen items-center bg-gray-800 justify-between text-white p-4 z-50">
+    <div  :style="{ color: colors.text, backgroundColor: colors.bg }" class="flex flex-row w-screen items-center justify-between p-4 z-50" >
       <h1 class="text-3xl font-bold flex justify-start tracking-tighter">
-          
-          <span v-for="(char, index) in text" :key="index" class="wave-char wave-text">
-              {{ char }}
-          </span>
-
+        <span v-for="(char, index) in text" :key="index" class="wave-char wave-text">
+          {{ char }}
+        </span>
       </h1>
-      <div class="flex justify-center flex-row gap-x-4">
-        <p class="font-bold">Tools</p>
-        <font-awesome-icon class="text-white text-2xl cursor-pointer transition duration-150 ease-in-out hover:scale-[1.2]" :class="showMenu ? 'opacity-80 scale-[1.2]' : ''" icon="fa-solid fa-bars" @click="toggleMenu()"/>
+      <div class="flex justify-center text-white flex-row gap-x-4">
+        <p class="font-bold">tools</p>
+        <font-awesome-icon
+          class=" text-2xl cursor-pointer transition duration-150 ease-in-out hover:scale-[1.2]"
+          :class="showMenu ? 'opacity-80 scale-[1.2]' : ''"
+          icon="fa-solid fa-bars"
+          @mouseover="showMenuF"
+          @mouseleave="hideMenuF(); isHovered = false"
+        />
       </div>
     </div>
-    <MenuSelect v-show="showMenu" class="absolute right-0 top-18 w-60 z-50"></MenuSelect>
+    <MenuSelect
+      v-show="showMenu"
+      class="absolute right-0 top-18 w-60 z-50"
+      @mouseleave="hideMenuF"
+      @mouseenter="showMenuF"
+    ></MenuSelect>
   </div>
-
 </template>
 
 <script setup>
-  import { ref } from 'vue';
-import MenuSelect from './MenuSelect.vue';
-  const text = 'COLORRAGE.';
+  import { ref } from "vue";
+  import MenuSelect from "./MenuSelect.vue";
+  import { useColorsStore } from '../stores/colorstore';
+
+  const colors = useColorsStore();
+
+
+  const text = "COLORRAGE.";
   const showMenu = ref(false);
-  function toggleMenu(){
-    showMenu.value = !showMenu.value
+  const isHovered = ref(false);
+
+  function showMenuF() {
+    showMenu.value = true;
+    isHovered.value = true;
   }
 
+  const hideMenuF = async () => {
+    await delay(200);
+    if (!isHovered.value) {
+      showMenu.value = false;
+    }
+    isHovered.value = false;
+  };
+
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 </script>
 
 <style scoped>
