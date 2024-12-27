@@ -6,21 +6,24 @@
           {{ char }}
         </span>
       </h1>
-      <div class="flex justify-center text-white flex-row gap-x-4">
+      <div class="flex justify-center flex-row gap-x-4 transition duration-150 will-change-transform ease-in-out cursor-pointer" 
+        :style="{ color : colors.text }"           
+        :class="showMenu ? 'opacity-80' : ''"
+        @mouseover="showMenuF"
+        @mouseleave="hideMenuF(); isHovered = false"
+        >
         <p class="font-bold">tools</p>
         <font-awesome-icon
-          class=" text-2xl cursor-pointer transition duration-150 ease-in-out hover:scale-[1.2]"
-          :class="showMenu ? 'opacity-80 scale-[1.2]' : ''"
+          class=" text-2xl"
           icon="fa-solid fa-bars"
-          @mouseover="showMenuF"
-          @mouseleave="hideMenuF(); isHovered = false"
+
         />
       </div>
     </div>
     <MenuSelect
       v-show="showMenu"
       class="absolute right-0 top-18 w-60 z-50"
-      :style="{ backgroundColor: colors.bg }"
+      :style="{ backgroundColor: colors.bg, color : colors.text}"
       @mouseleave="hideMenuF"
       @mouseenter="showMenuF"
     ></MenuSelect>

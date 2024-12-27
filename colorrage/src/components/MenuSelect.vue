@@ -1,6 +1,6 @@
     
 <template>
-    <div class="rounded-bl-lg text-white">
+    <div>
         <MenuLine @click="setScreen(0)">color mixer</MenuLine>
         <MenuLine @click="setScreen(1)">color shades</MenuLine>
         <MenuLine @click="setScreen(2)">color naming</MenuLine>

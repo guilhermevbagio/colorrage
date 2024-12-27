@@ -3,31 +3,32 @@ import { hexToHsv, hsvToHex } from '../assets/utils/colorSpaceConverter';
 
 export const useColorsStore = defineStore('colors', {
   state: () => ({
-    text: '#FFFFFF', // default text color (white)
-    bg: '#000000',   // default background color (black)
-    mainColor: '#3498db', // default main color (blue)
+    text: '#FFFFFF',
+    bg: '#000000', 
+    mainColor: '#3498db',
   }),
   actions: {
     setMainColor(color) {
       this.mainColor = color;
-      this.updateColors(color); // Automatically update text and bg colors
+      this.updateColors(color);
     },
     updateColors(color) {
       const hsv = hexToHsv(color);
       
-      // Generate lighter color for text (increase V)
-      const lighterTextColor = hsvToHex(hsv.h, hsv.s, Math.min(hsv.v + 0.3, 1));
+      const textV = hsv.v/3;
+      const textColor = hsvToHex(hsv.h, hsv.s, textV);
       
-      // Generate darker color for bg (decrease V)
-      const darkerBgColor = hsvToHex(hsv.h, hsv.s, Math.max(hsv.v - 0.3, 0));
+      const bgColor = hsvToHex(hsv.h, hsv.s, hsv.v);
 
-      this.text = lighterTextColor;
-      this.bg = darkerBgColor;
+      const contrast = (hsv.v - textV)
+      this.text = contrast < 30 ? hsvToHex(hsv.h, hsv.s, 100 - contrast) : textColor;
+      this.bg = bgColor;
     },
     resetColors() {
-      this.text = '#FFFFFF'; // reset text color to white
-      this.bg = '#000000';   // reset background color to black
-      this.mainColor = '#3498db'; // reset to default blue
+      this.text = '#FFFFFF';
+      this.bg = '#000000'; 
+      this.mainColor = '#3498db'; 
     },
+    clamp(num, min, max) { Math.min(Math.max(num, min), max) }
   },
 });
