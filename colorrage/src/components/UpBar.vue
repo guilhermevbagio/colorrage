@@ -20,6 +20,7 @@
     <MenuSelect
       v-show="showMenu"
       class="absolute right-0 top-18 w-60 z-50"
+      :style="{ backgroundColor: colors.bg }"
       @mouseleave="hideMenuF"
       @mouseenter="showMenuF"
     ></MenuSelect>

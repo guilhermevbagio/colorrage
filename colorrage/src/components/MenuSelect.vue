@@ -1,8 +1,11 @@
     
 <template>
-    <div class="rounded-bl-lg bg-ragered text-white">
+    <div class="rounded-bl-lg text-white">
         <MenuLine @click="setScreen(0)">color mixer</MenuLine>
         <MenuLine @click="setScreen(1)">color shades</MenuLine>
+        <MenuLine @click="setScreen(2)">color naming</MenuLine>
+        <MenuLine @click="setScreen(2)">palletes</MenuLine>
+
         <MenuLine @click="setScreen(2)">about</MenuLine>
     </div>
 </template>
