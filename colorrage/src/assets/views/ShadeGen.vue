@@ -42,9 +42,11 @@ import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import VueSlider from "vue-3-slider-component";
 import { ref, watch, onMounted } from 'vue';
 import { hexToHsv, hsvToHex, randomColor } from '../utils/colorSpaceConverter';
+import { useColorsStore } from '@/stores/colorstore';
 
 const inputColor = ref("ff8733");
 const shades = ref(['', '', '', '', '', '', '', '', '']);
+const colorstore = useColorsStore();
 
 const wash = ref(50);
 const hueShift = ref(20);
@@ -67,6 +69,7 @@ watch(hueShift, () => {
 watch(inputColor, (newColor) => {
     if(!newColor) return;
 
+    colorstore.setMainColor(newColor)
     calculateShades();
 
 });
