@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div :style="colorStyle" class="w-40 h-40 rounded shadow-md m-0 p-0 flex items-center  justify-center">
+        <div :style="colorStyle" class="w-40 h-40 rounded shadow-md m-0 p-0 flex items-center justify-center">
             <slot>
 
             </slot>
         </div>
-        <p v-if="showHex" class="uppercase truncate">{{ color }}</p>
+        <p v-if="showHex" class="uppercase truncate" @click="emits('clickOnHex')">{{ color }}</p>
     </div>
 </template>
 
@@ -14,7 +14,6 @@ import { computed } from 'vue';
 import { hexToHsv } from '../assets/utils/colorSpaceConverter';
 
 
-// Define props
 const props = defineProps({
     color: {
         type: String,
@@ -25,6 +24,8 @@ const props = defineProps({
         default: true
     }
 });
+
+const emits = defineEmits(['clickOnHex']);
 
 
 const colorStyle = computed(() => ({

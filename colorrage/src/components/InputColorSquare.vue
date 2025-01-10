@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center w-40 relative">
-        <ColorSquare class="cursor-pointer text-white" :color="displayColorA" :show-hex="!unlocked" >
+        <ColorSquare class="cursor-pointer text-white" :color="displayColorA" :show-hex="!unlocked" @click-on-hex="toggleColorPickerA()">
         
             <div class="flex flex-row gap-2">
               <font-awesome-icon class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ?  'fa-solid fa-check' : 'fa-solid fa-eye-dropper'"  @click="toggleColorPickerA()"/>
@@ -9,7 +9,7 @@
         </ColorSquare>
         <div v-if="unlocked" class="flex flex-row w-full truncate">
           <p class="bg-gray-800 select-none">#</p>
-          <input v-model="inputColor" class="uppercase pr-1 bg-gray-800" :placeholder="color" @input="(value) => sanitizeColor(value)" @paste="pasteColor"/>
+          <input v-model="inputColor" ref="hexInputRef" class="uppercase pr-1 bg-gray-800" :placeholder="color" @input="(value) => sanitizeColor(value)" @paste="pasteColor" @keydown.enter="toggleColorPickerA()"/>
         </div>
         <transition name="fade">
           <div v-if="unlocked" class="absolute top-full left-0 z-10 rounded shadow-lg">
@@ -22,7 +22,7 @@
 <script setup>
 import ColorSquare from './ColorSquare.vue'
 import ColorPicker from 'primevue/colorpicker';
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, nextTick } from "vue";
 
 
 const unlocked = ref(false);
@@ -30,14 +30,18 @@ const displayColorA = computed(() => '#' + color.value)
 const inputColor = ref();
 const color = defineModel();
 
+const hexInputRef = ref(null);
 
-function toggleColorPickerA() {
+async function toggleColorPickerA() {
   unlocked.value = !unlocked.value;
 
   //guarantees the inputColor variable doesnt store a bogus value after invalid input is rejected
   if(unlocked.value) {
     inputColor.value = color.value
   }
+
+  await nextTick();
+  if(hexInputRef.value) hexInputRef.value.focus();
 }
 watch(inputColor, (newColor) => {
 
