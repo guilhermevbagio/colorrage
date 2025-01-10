@@ -28,7 +28,7 @@
 import VueSlider from "vue-3-slider-component";
 
 import Select from 'primevue/select';
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useColorsStore } from '../../stores/colorstore';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import InputColorSquare from '../../components/InputColorSquare.vue';
@@ -50,6 +50,10 @@ const algorithms = ref([
     { name: 'HSV Average', code: '4'}
 ]);
 const resultingColor = computed(() => combineColors(colorA.value, colorB.value));
+
+onMounted(() => {
+  store.setMainColor(resultingColor.value)
+})
 
 watch(resultingColor, () => {
   store.setMainColor(resultingColor.value)
