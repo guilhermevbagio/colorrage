@@ -32,7 +32,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { useColorsStore } from '../../stores/colorstore';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import InputColorSquare from '../../components/InputColorSquare.vue';
-import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex } from '../utils/colorSpaceConverter.js';
+import { hexToRgb, rgbToHsv, hsvToRgb, rgbToHex, randomColor } from '../utils/colorSpaceConverter.js';
 
 const colorA = ref("ff8733");
 const colorB = ref("f22753");
@@ -52,6 +52,8 @@ const algorithms = ref([
 const resultingColor = computed(() => combineColors(colorA.value, colorB.value));
 
 onMounted(() => {
+  colorA.value = randomColor();
+  colorB.value = randomColor();
   store.setMainColor(resultingColor.value)
 })
 
