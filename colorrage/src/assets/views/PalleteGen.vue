@@ -1,9 +1,10 @@
 <template>
-    <div class="flex-col flex">
+    <div class="flex-col flex gap-y-2">
 
         <h1 class="text-2xl font-extrabold text-center tracking-tighter text-white">ALGORITHMIC COLOR PALLETE</h1>
+        <h1 class="font-semibold self-center text-lg text-white">MODE:</h1>
+        <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="Monochrome" class="w-52 self-center" ></Select>
         <div class="flex flex-col gap-2 w-full justify-center mt-6 items-center">
-            <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="Monochrome" class="w-52 self-center" ></Select>
             <InputColorSquare v-model="colorA"/>
             <div class="flex flex-row gap-2 items-center">
                 <OutputColorSquare v-for="color in resultingColors" :key="color" :color="color" />
