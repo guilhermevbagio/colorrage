@@ -3,14 +3,14 @@
 
         <h1 class="text-2xl font-extrabold text-center tracking-tighter text-white">ALGORITHMIC COLOR PALLETE</h1>
         <h1 class="font-semibold self-center text-lg text-white">MODE:</h1>
-        <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="Monochrome" class="w-52 self-center" ></Select>
+        <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="Monochrome" class="w-52 self-center"></Select>
         <div class="flex flex-col gap-2 w-full justify-center mt-6 items-center">
             <InputColorSquare v-model="colorA"/>
             <div class="flex flex-row gap-2 items-center">
                 <OutputColorSquare v-for="color in resultingColors" :key="color" :color="color" />
             </div>
         </div>
-        <button class="flex justify-center mx-auto  items-center mt-6 bg-white text-slate-800 p-2 rounded font-bold transition duration-150 hover:-translate-y-1 hover:text-gray-500 disabled:opacity-50" :disabled="!change" @click="generatePallete()"> Generate </button>
+        <button class="flex justify-center mx-auto cursor-pointer disabled:cursor-default items-center mt-6 bg-white text-slate-800 p-2 rounded font-bold transition duration-150  disabled:opacity-50" :class="change ? 'hover:-translate-y-1 hover:text-gray-500' : ''" :disabled="!change" @click="generatePallete()"> Generate </button>
     </div>
 </template>
 
