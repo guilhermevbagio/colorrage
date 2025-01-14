@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center w-40 relative">
+    <div class="flex flex-col justify-center relative">
         <ColorSquare class="cursor-pointer text-white" :color="displayColorA" :show-hex="!unlocked" @click-on-hex="toggleColorPickerA()">
         
             <div class="flex flex-row gap-2">

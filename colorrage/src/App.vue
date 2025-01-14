@@ -13,10 +13,9 @@ import UpBar from './components/UpBar.vue';
 import ColorMixer from './assets/views/ColorMixer.vue';
 import ScreenCarousel from './components/ScreenCarousel.vue';
 import ShadeGen from './assets/views/ShadeGen.vue';
-import AboutScreen from './assets/views/AboutScreen.vue';
 import PalleteGen from './assets/views/PalleteGen.vue';
 
-const screens=[ColorMixer, ShadeGen, AboutScreen, PalleteGen];
+const screens=[ColorMixer, ShadeGen, PalleteGen];
 
 </script>
 

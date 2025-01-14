@@ -1,5 +1,5 @@
 <template>
     <div>
-        iae
+        COLORRAGE. is a color manipulation tool
     </div>
 </template>

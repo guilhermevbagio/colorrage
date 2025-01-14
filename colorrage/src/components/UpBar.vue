@@ -1,5 +1,6 @@
 <template>
-  <div class="fixed top-0 right-0">
+  <UpBarScrollingSign></UpBarScrollingSign>
+  <div class="fixed top-0 right-0 z-50">
     <div  :style="{ color: colors.text, backgroundColor: colors.bg }" class="flex flex-row w-screen items-center justify-between p-4 z-50" >
       <h1 class="text-3xl font-bold flex justify-start tracking-tighter">
         <span v-for="(char, index) in text" :key="index" class="wave-char wave-text">
@@ -28,12 +29,14 @@
       @mouseenter="showMenuF"
     ></MenuSelect>
   </div>
+
 </template>
 
 <script setup>
   import { ref } from "vue";
   import MenuSelect from "./MenuSelect.vue";
   import { useColorsStore } from '../stores/colorstore';
+import UpBarScrollingSign from "./UpBarScrollingSign.vue";
 
   const colors = useColorsStore();
 
@@ -86,5 +89,22 @@
   50% { transform: translateY(-.3rem); }
   100% { transform: translateY(0); }
 }
+
+
+.scrolling-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-animation 40s linear infinite;
+}
+
+@keyframes scroll-animation {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 </style>
 

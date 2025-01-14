@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import {faCopy, faPaste} from "@fortawesome/free-regular-svg-icons";
 import {
-    faLock, faLockOpen, faBars, faChevronRight, faChevronLeft, faEyeDropper, faCheck, faPlay
+    faLock, faLockOpen, faBars, faChevronRight, faChevronLeft, faEyeDropper, faCheck, faPlay, faSpinner, faArrowRight, faArrowLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 import Aura from '@primevue/themes/aura';
@@ -19,7 +19,7 @@ import "./assets/index.css"
 
 const app = createApp(App)
 
-library.add(faLock, faLockOpen, faBars, faCopy, faChevronRight, faChevronLeft, faPaste, faEyeDropper, faCheck, faPlay);
+library.add(faLock, faLockOpen, faBars, faCopy, faChevronRight, faChevronLeft, faPaste, faEyeDropper, faCheck, faPlay, faSpinner, faArrowRight, faArrowLeft);
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())

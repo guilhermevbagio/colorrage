@@ -12,13 +12,18 @@
       </div>
     </div>
     <!--COLOR SQUARES-->
-    <div class="w-full flex flex-row gap-x-32 mt-6 justify-center">
-      
-      <InputColorSquare v-model="colorA"/>
+    <div class="w-full flex flex-row gap-x-8 mt-6 justify-center">
+      <div class="flex flex-row items-center gap-8">
+        <InputColorSquare v-model="colorA"/>
+        <font-awesome-icon icon="fa-solid fa-arrow-right" size="2xl"  />
+      </div>
       
       <OutputColorSquare :color="resultingColor" />
       
-      <InputColorSquare v-model="colorB"/>
+      <div class="flex flex-row items-center gap-8">
+        <font-awesome-icon icon="fa-solid fa-arrow-left" size="2xl"  />
+        <InputColorSquare v-model="colorB"/>
+      </div>
     </div>
   </div>
 </template>

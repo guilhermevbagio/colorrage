@@ -1,12 +1,10 @@
     
 <template>
-    <div>
+    <div class="z-50">
         <MenuLine @click="setScreen(0)">color mixer</MenuLine>
         <MenuLine @click="setScreen(1)">color shades</MenuLine>
-        <MenuLine @click="setScreen(2)">color naming</MenuLine>
         <MenuLine @click="setScreen(2)">palletes</MenuLine>
 
-        <MenuLine @click="setScreen(2)">about</MenuLine>
     </div>
 </template>
 
