@@ -6,7 +6,7 @@
         <div class="flex flex-row gap-2 justify-center">
 
           <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="Monochrome" class="w-52 self-center" ></Select>
-          <Select v-model="amount" :options="amountOptions"  placeholder="5" class="w-52 self-center" ></Select>
+          <Select v-if="algorithm.amount == null" v-model="amount" :options="amountOptions"  placeholder="5" class="w-52 self-center" ></Select>
         </div>
 
         <div class="flex flex-row gap-2 w-full justify-center mt-6 items-center">
@@ -38,8 +38,8 @@ import LoadingIcon from "@/components/LoadingIcon.vue";
 const colorA = ref("ff8733");
 const store = useColorsStore();
 const change = ref(true)
-const algorithms = ref( [{ name: 'Monochrome', value: 'monochrome' },  { name: 'Analogous', value: 'analogic' }, { name: 'Complementary', value: 'complement' }, { name: 'Analogic Complementary', value: 'analogic-complement' }, { name: 'Triadic', value: 'triad' }, { name: 'Tetradic', value: 'quad' }]);
-const algorithm = ref({name: '', value: ''});
+const algorithms = ref( [{ name: 'Monochrome', value: 'monochrome', amount: null },  { name: 'Analogous', value: 'analogic', amount: null }, { name: 'Complementary', value: 'complement', amount: 1 }, { name: 'Analogic Complementary', value: 'analogic-complement', amount: null }, { name: 'Triadic', value: 'triad', amount: 3 }, { name: 'Tetradic', value: 'quad', amount: 4 }]);
+const algorithm = ref({name: '', value: '', amount: null});
 const amount = ref(5);
 const amountOptions = ref([3, 4, 5, 6, 7, 8]);
 const resultingColors = ref([]);
@@ -66,7 +66,8 @@ watch(amount, () => {
 async function generatePallete(){
   loading.value = true;
   change.value = false;
-  let request = await getColorScheme(colorA.value, '', algorithm.value.value, amount.value);
+  let requestAmount = algorithm.value.amount ? algorithm.value.amount : amount.value;
+  let request = await getColorScheme(colorA.value, '', algorithm.value.value, requestAmount);
   let colors = request.colors;
   let filteredColors = colors.map(color => color.hex.value);
   resultingColors.value = filteredColors;
