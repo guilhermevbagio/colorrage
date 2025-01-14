@@ -7,7 +7,7 @@
         <h1 class="font-semibold self-center text-lg text-white">MODE:</h1>
         <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="RGB average" class="w-52 self-center" ></Select>
         <div v-if="hasParameter"  class="w-64 self-center">
-          <VueSlider v-model="parameter" v-bind="{processStyle : { backgroundColor: resultingColor }, railStyle : { backgroundColor: 'black' }, dotStyle : {backgroundColor: resultingColor}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
+          <VueSlider v-model="parameter" v-bind="{processStyle : { backgroundColor: resultingColor }, railStyle : { backgroundColor: store.text }, dotStyle : {backgroundColor: resultingColor}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
         </div>
       </div>
     </div>
