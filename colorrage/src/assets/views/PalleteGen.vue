@@ -10,23 +10,24 @@
         </div>
 
         <div class="flex flex-row gap-2 w-full justify-center mt-6 items-center">
-          <div class="flex flex-row items-center gap-4" :class="!change ? 'pr-2' : ''">
+          <div class="flex flex-row items-center gap-4 pr-2">
             <InputColorSquare v-model="colorA"/>
-            <font-awesome-icon v-if="!change && !loading" icon="fa-solid fa-arrow-right" size="2xl"  />
+            <font-awesome-icon icon="fa-solid fa-arrow-right" size="2xl"  />
           </div>  
-
-            <div v-if="!change" class="flex flex-row gap-2 items-center">
-                <OutputColorSquare v-for="color in resultingColors" :key="color" :color="color" />
-            </div>
+          <div class="flex flex-row gap-2 items-center mb-auto">
+              <OutputColorSquare v-for="index in trueAmount" :key="index" :color="resultingColors[index - 1] ? resultingColors[index - 1] : ''" />
+          </div>
         </div>
-        <LoadingIcon class="mx-auto" v-if="loading" />
-        <button class="flex justify-center mx-auto cursor-pointer disabled:cursor-default items-center mt-6 bg-white text-slate-800 p-2 rounded font-bold transition duration-150  disabled:opacity-50" :class="change ? 'hover:-translate-y-1 hover:text-gray-500' : ''" :disabled="!change" @click="generatePallete()"> Generate </button>
+        <div class="flex flex-row mt-6 gap-2 mx-auto">
+          <button class="flex justify-center cursor-pointer disabled:cursor-default items-center bg-white text-slate-800 p-2 rounded font-bold transition duration-150  disabled:opacity-50" :class="change ? 'hover:-translate-y-1 hover:text-gray-500' : ''" :disabled="!change" @click="generatePallete()"> Generate </button>
+          <LoadingIcon class="" v-if="loading" />
+        </div>
     </div>
 </template>
 
 <script setup>
 
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import { useColorsStore } from '../../stores/colorstore';
 import OutputColorSquare from '../../components/OutputColorSquare.vue';
 import InputColorSquare from '../../components/InputColorSquare.vue';
@@ -45,6 +46,8 @@ const amountOptions = ref([3, 4, 5, 6, 7, 8]);
 const resultingColors = ref([]);
 const loading = ref(false);
 
+const trueAmount = computed(() => (algorithm.value.amount ? algorithm.value.amount : amount.value));
+
 onMounted(() => {
   colorA.value = randomColor();
   store.setMainColor(colorA.value)
@@ -56,9 +59,11 @@ watch(colorA, () => {
   change.value = true;
 })
 watch(algorithm, () => {
+  resultingColors.value = [];
   change.value = true;
 })
 watch(amount, () => {
+  resultingColors.value = [];
   change.value = true;
 })
 
@@ -66,8 +71,7 @@ watch(amount, () => {
 async function generatePallete(){
   loading.value = true;
   change.value = false;
-  let requestAmount = algorithm.value.amount ? algorithm.value.amount : amount.value;
-  let request = await getColorScheme(colorA.value, '', algorithm.value.value, requestAmount);
+  let request = await getColorScheme(colorA.value, '', algorithm.value.value, trueAmount.value);
   let colors = request.colors;
   let filteredColors = colors.map(color => color.hex.value);
   resultingColors.value = filteredColors;

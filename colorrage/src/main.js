@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import PrimeVue from "primevue/config";
 import { library } from '@fortawesome/fontawesome-svg-core'
-
+import VTooltip from 'v-tooltip'
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -23,6 +23,7 @@ library.add(faLock, faLockOpen, faBars, faCopy, faChevronRight, faChevronLeft, f
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
+app.use(VTooltip)
 app.use(PrimeVue, {
     theme: {
         preset: Aura,

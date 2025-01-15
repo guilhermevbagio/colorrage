@@ -14,8 +14,9 @@ import ColorMixer from './assets/views/ColorMixer.vue';
 import ScreenCarousel from './components/ScreenCarousel.vue';
 import ShadeGen from './assets/views/ShadeGen.vue';
 import PalleteGen from './assets/views/PalleteGen.vue';
+import AIPalleteGen from './assets/views/AIPalleteGen.vue';
 
-const screens=[ColorMixer, ShadeGen, PalleteGen];
+const screens=[ColorMixer, ShadeGen, PalleteGen, AIPalleteGen];
 
 </script>
 
