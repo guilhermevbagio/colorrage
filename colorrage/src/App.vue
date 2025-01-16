@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row items-center justify-center min-w-screen min-h-screen gap-y-8 bg-black overflow-hidden">
+  <div class="flex flex-col items-center justify-center w-screen min-w-screen min-h-screen gap-y-8 bg-black overflow-hidden">
       <UpBar />
 
       <ScreenCarousel :screens="screens" />
