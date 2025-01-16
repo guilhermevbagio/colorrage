@@ -5,7 +5,7 @@
 
             </slot>
         </div>
-        <p v-if="showHex" class="uppercase truncate" @click="emits('clickOnHex')">{{ color }}</p>
+        <p v-if="showHex" class="w-fit uppercase truncate" @click="emits('clickOnHex')">{{ color }}</p>
     </div>
 </template>
 

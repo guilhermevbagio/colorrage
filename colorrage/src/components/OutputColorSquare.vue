@@ -1,7 +1,6 @@
 <template>
-    <div>
       <ColorSquare
-        class="cursor-pointer"
+        class="cursor-pointer w-fit"
         :class="color ? '' : 'border rounded-lg border-dashed border-gray-700'"
         :color="color"
         @click="copyToClipboard(color)"
@@ -13,9 +12,6 @@
         <font-awesome-icon v-if="color" class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-copy" />
       </div>
       </ColorSquare>
-      
-
-    </div>
   </template>
   
   <script setup>
