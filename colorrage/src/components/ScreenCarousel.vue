@@ -1,7 +1,5 @@
 <template>
     <div >
-
-
         <component :is="screens[activeIndex]" :key="activeIndex" class="flex justify-center" />
 
 

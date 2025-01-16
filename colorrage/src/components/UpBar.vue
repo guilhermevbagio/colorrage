@@ -1,35 +1,37 @@
 <template>
-  <UpBarScrollingSign></UpBarScrollingSign>
-  <div class="fixed top-0 right-0 z-50">
-    <div  :style="{ color: colors.text, backgroundColor: colors.bg }" class="flex flex-row w-screen items-center justify-between p-4 z-50" >
-      <h1 class="text-3xl font-bold flex justify-start tracking-tighter">
-        <span v-for="(char, index) in text" :key="index" class="wave-char wave-text">
-          {{ char }}
-        </span>
-      </h1>
-      <div class="flex justify-center flex-row gap-x-4 transition duration-150 will-change-transform ease-in-out cursor-pointer" 
-        :style="{ color : colors.text }"           
-        :class="showMenu ? 'opacity-80' : ''"
-        @mouseover="showMenuF"
-        @mouseleave="hideMenuF(); isHovered = false"
-        >
-        <p class="font-bold">tools</p>
-        <font-awesome-icon
-          class=" text-2xl"
-          icon="fa-solid fa-bars"
+  <div class="w-full">
+    <UpBarScrollingSign></UpBarScrollingSign>
+    <div class="fixed w-screen top-0 right-0 z-50">
+      <div  :style="{ color: colors.text, backgroundColor: colors.bg }" class="flex flex-row w-screen items-center justify-between p-4 z-50" >
+        <h1 class="text-3xl font-bold flex justify-start tracking-tighter">
+          <span v-for="(char, index) in text" :key="index" class="wave-char wave-text">
+            {{ char }}
+          </span>
+        </h1>
+        <div class="flex justify-center flex-row gap-x-4 transition duration-150 will-change-transform ease-in-out cursor-pointer" 
+          :style="{ color : colors.text }"           
+          :class="showMenu ? 'opacity-80' : ''"
+          @mouseover="showMenuF"
+          @mouseleave="hideMenuF(); isHovered = false"
+          @click="toggleMenu()"
+          >
+          <p class="font-bold">tools</p>
+          <font-awesome-icon
+            class=" text-2xl"
+            icon="fa-solid fa-bars"
 
-        />
+          />
+        </div>
       </div>
+      <MenuSelect
+        v-show="showMenu"
+        class="absolute right-0 top-18 w-60 z-50"
+        :style="{ backgroundColor: colors.bg, color : colors.text}"
+        @mouseleave="hideMenuF"
+        @mouseenter="showMenuF"
+      ></MenuSelect>
     </div>
-    <MenuSelect
-      v-show="showMenu"
-      class="absolute right-0 top-18 w-60 z-50"
-      :style="{ backgroundColor: colors.bg, color : colors.text}"
-      @mouseleave="hideMenuF"
-      @mouseenter="showMenuF"
-    ></MenuSelect>
   </div>
-
 </template>
 
 <script setup>
@@ -44,6 +46,15 @@ import UpBarScrollingSign from "./UpBarScrollingSign.vue";
   const text = "COLORRAGE.";
   const showMenu = ref(false);
   const isHovered = ref(false);
+
+  function toggleMenu(){
+    if(showMenu.value){
+      showMenu.value = false;
+    }
+    else{
+      showMenuF()
+    }
+  }
 
   function showMenuF() {
     showMenu.value = true;

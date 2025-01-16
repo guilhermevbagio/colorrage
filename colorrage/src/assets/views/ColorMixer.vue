@@ -1,27 +1,27 @@
 <template>
   <div class="flex flex-col">
     <div class="flex justify-center">
-      <div class="w-full h-full flex flex-col justify-center gap-y-2">
+      <div class="w-full mt-10 md:mt-0 h-full flex flex-col justify-center gap-y-2">
         
         <h1 class="font-extrabold flex text-2xl tracking-tighter text-white justify-center">COLOR MIXER</h1>
         <h1 class="font-semibold self-center text-lg text-white">MODE:</h1>
         <Select v-model="algorithm" :options="algorithms" optionLabel="name" placeholder="RGB average" class="w-52 self-center" ></Select>
-        <div v-if="hasParameter"  class="w-64 self-center">
+        <div v-if="hasParameter"  class="w-32 md:w-64 self-center">
           <VueSlider v-model="parameter" v-bind="{processStyle : { backgroundColor: resultingColor }, railStyle : { backgroundColor: store.text }, dotStyle : {backgroundColor: resultingColor}, dotSize : 20, tooltip: 'none', dotOptions: {tooltip: 'none'}}" />
         </div>
       </div>
     </div>
     <!--COLOR SQUARES-->
-    <div class="w-full flex flex-row gap-x-8 mt-6 justify-center">
-      <div class="flex flex-row items-center gap-8">
+    <div class="w-full flex flex-col gap-y-4 md:gap-y-0 md:flex-row gap-x-8 mt-6 justify-center items-center">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 w-full">
         <InputColorSquare v-model="colorA"/>
-        <font-awesome-icon icon="fa-solid fa-arrow-right" size="2xl"  />
+        <font-awesome-icon icon="fa-solid fa-arrow-right" size="2xl" class="rotate-90 md:rotate-0"/>
       </div>
       
       <OutputColorSquare :color="resultingColor" />
       
-      <div class="flex flex-row items-center gap-8">
-        <font-awesome-icon icon="fa-solid fa-arrow-left" size="2xl"  />
+      <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8 w-full">
+        <font-awesome-icon icon="fa-solid fa-arrow-left" size="2xl"  class="rotate-90 md:rotate-0"/>
         <InputColorSquare v-model="colorB"/>
       </div>
     </div>

@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-col w-32 2xl:w-40 justify-center relative">
+    <div class="flex flex-col w-24 md:w-32 2xl:w-40 justify-center relative">
         <ColorSquare class="cursor-pointer text-white" :color="displayColorA" :show-hex="!unlocked" @click-on-hex="toggleColorPickerA()">   
             <div class="flex flex-row gap-2">
-              <font-awesome-icon class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ?  'fa-solid fa-check' : 'fa-solid fa-eye-dropper'"  @click="toggleColorPickerA()"/>
-              <font-awesome-icon v-if="!unlocked" class="transition duration-150 ease-in-out text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-paste" @click="pasteColor"/>
+              <font-awesome-icon class="transition duration-150 ease-in-out text-3xl md:text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" :icon="unlocked ?  'fa-solid fa-check' : 'fa-solid fa-eye-dropper'"  @click="toggleColorPickerA()"/>
+              <font-awesome-icon v-if="!unlocked" class="transition duration-150 ease-in-out text-3xl md:text-5xl opacity-20 hover:opacity-30 hover:scale-[1.04]" icon="fa-regular fa-paste" @click="pasteColor"/>
             </div>
         </ColorSquare>
         <div v-if="unlocked" class="flex flex-row w-full truncate">

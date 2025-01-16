@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div :style="colorStyle" class="w-32 h-32 2xl:w-40 2xl:h-40 rounded shadow-md flex items-center justify-center">
+        <div :style="colorStyle" class="w-24 h-24 md:w-32 md:h-32 2xl:w-40 2xl:h-40 rounded shadow-md flex items-center justify-center">
             <slot>
 
             </slot>
